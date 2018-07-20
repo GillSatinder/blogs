@@ -43,22 +43,19 @@ class TemplateController extends Controller
 
     public function getAllTemplates(Request $request) {
 
-
         $pageSize = $request->pageSize;
+
         $currentPage = $request->currentPage;
         $totalResults = Template::all()->count();
         $totalPages = ceil($totalResults / $pageSize );
-
-
-
-        $pagedData = Template::all()->take($pageSize);
+        $pagedData = Template::skip(($currentPage - 1) * $pageSize)->take($pageSize)->get();
         $response = ['pagedData' => $pagedData];
 
         $pagingData = array('totalPages' => $totalPages,
             'totalResults' => $totalResults,
-            'pagingRequest' => 7,
-            'currentPage' => $currentPage,
-            'pageSize' => $pageSize,
+            'pagingRequest' => 2,
+            'currentPage' => $request->currentPage,
+            'pageSize' => $request->pageSize,
             'searchTerm' => '');
 
         return response()->json($response + $pagingData, 200);
