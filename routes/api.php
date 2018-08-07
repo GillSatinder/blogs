@@ -30,6 +30,11 @@ Route::get('allTemplates',[
 
 Route::post('templateGroups',[
     'uses'=>'TemplateGroupController@save'
+
+]);
+
+Route::get('searchOptions', [
+    'uses'=>'TemplateGroupController@templateSearchOptions'
 ]);
 
 Route::put('/template/{id}',[

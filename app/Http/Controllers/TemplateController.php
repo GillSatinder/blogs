@@ -43,22 +43,43 @@ class TemplateController extends Controller
 
     public function getAllTemplates(Request $request) {
 
+
         $pageSize = $request->pageSize;
+        $searchTerm  = $request->searchTerm;
+        if ($searchTerm) {
+            $currentPage = $request->currentPage;
+            $totalResults = Template::all()->count();
+            $totalPages = ceil($totalResults / $pageSize );
+            $pagedData = Template::where('name', 'LIKE', '%'.$searchTerm.'%')->get();
+            $response = ['pagedData' => $pagedData];
 
-        $currentPage = $request->currentPage;
-        $totalResults = Template::all()->count();
-        $totalPages = ceil($totalResults / $pageSize );
-        $pagedData = Template::skip(($currentPage - 1) * $pageSize)->take($pageSize)->get();
-        $response = ['pagedData' => $pagedData];
+            $pagingData = array('totalPages' => $totalPages,
+                'totalResults' => $totalResults,
+                'pagingRequest' => 2,
+                'currentPage' => $request->currentPage,
+                'pageSize' => $request->pageSize,
+                'searchTerm' => $searchTerm);
 
-        $pagingData = array('totalPages' => $totalPages,
-            'totalResults' => $totalResults,
-            'pagingRequest' => 2,
-            'currentPage' => $request->currentPage,
-            'pageSize' => $request->pageSize,
-            'searchTerm' => '');
+            return response()->json($response + $pagingData, 200);
 
-        return response()->json($response + $pagingData, 200);
+        }
+        else {
+
+            $currentPage = $request->currentPage;
+            $totalResults = Template::all()->count();
+            $totalPages = ceil($totalResults / $pageSize);
+            $pagedData = Template::skip(($currentPage - 1) * $pageSize)->take($pageSize)->get();
+            $response = ['pagedData' => $pagedData];
+
+            $pagingData = array('totalPages' => $totalPages,
+                'totalResults' => $totalResults,
+                'pagingRequest' => 2,
+                'currentPage' => $request->currentPage,
+                'pageSize' => $request->pageSize,
+                'searchTerm' => $searchTerm);
+
+            return response()->json($response + $pagingData, 200);
+        }
 
     }
 }
