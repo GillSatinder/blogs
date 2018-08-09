@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Tags extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,6 +15,7 @@ class Tags extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('tagId');
+            $table->integer('templateId')->references('templateId')->on('templates');
             $table->string('name');
             $table->rememberToken();
             $table->timestamps();

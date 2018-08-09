@@ -48,5 +48,13 @@ Route::get('templateGroups',[
     'uses'=>'TemplateGroupController@index'
 ]);
 
+Route::get('getTemplateDetailsById/{id}', [
+   'uses'=>'TemplateController@getTemplateDetailsById'
+]);
+
+Route::put('/editTemplate',[
+   'uses'=> 'TemplateController@editTemplate'
+]);
+
 
 //Route::resource('templates','TemplateController');

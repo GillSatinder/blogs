@@ -20,7 +20,6 @@ class CreateTemplatesTable extends Migration
             $table->integer('templateImageId')->references('templateImageId')->on('template_images');
             $table->string('imageUrl');
             $table->string('name');
-            $table->string('tags');
             $table->boolean('isActive');
             $table->boolean('isPublic');
             $table->rememberToken();

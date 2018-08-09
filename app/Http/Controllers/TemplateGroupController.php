@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Tag;
 use App\Template;
 use App\TemplateGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class TemplateGroupController extends Controller
 {
@@ -51,7 +53,11 @@ class TemplateGroupController extends Controller
         $templateGroups = TemplateGroup::all();
         $categories = Category::all();
        // $tags = DB::table('templates')->pluck('tags');
-        $tags = Template::distinct('tags')->pluck('tags');
+      //  $tags = Template::distinct('tags')->pluck('tags');
+        $tags = Tag::distinct('name')->pluck('name');
+
+
+
         $response2 = ['categories' => $categories];
         $response1 = ['templateGroups' => $templateGroups];
         $response3 = ['tags'=> $tags];
