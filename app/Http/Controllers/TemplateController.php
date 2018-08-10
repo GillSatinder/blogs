@@ -50,7 +50,8 @@ class TemplateController extends Controller
         $template = Template::find($id);
 
         $tags = DB::table('tags')->where('templateId', $id)->get();
-        $categories = DB::table('categories')->where('templateId', $id)->get();
+      //  $categories = DB::table('categories')->where('templateId', $id)->get();
+       $categories = Category::all();
         $template->tags = $tags;
         $template->categories = $categories;
         $templateDetails = ['templateDetails' => $template];
@@ -58,10 +59,7 @@ class TemplateController extends Controller
     }
 
     public function editTemplate(Request $request) {
-//      // DB::table('tags')->where('templateId', $request->templateId)->delete();
-//
-//        $tag = Tag::firstOrFail($request->templateId);
-//
+
         $template = Template::find($request->templateId);
         $template->templateGroupId = $request->get('templateGroupId');
         $template->templateImageId = $request->get('templateImageId');
@@ -69,38 +67,16 @@ class TemplateController extends Controller
         $template->name = $request->get('name');
         $template->isActive = $request->get('isActive');
         $template->isPublic = $request->get('isPublic');
+        $template->categoryId = $request->get('categoryId');
         $template->save();
-
         $tags = $request->get('tags');
-        $tagtoSave = new Tag();
-
-        Tag::destroy($request->templateId);
+        $tagToSave = new Tag();
         foreach ($tags as $tag) {
-            $tagtoSave->templateId = $tag['templateId'];
-            $tagtoSave->name = $tag['name'];
-            $tagtoSave->save();
-//            $tagtoSave->templateId = "1";
-//            Tag::create(array($tagtoSave));
+            $tagToSave->templateId = $tag['templateId'];
+            $tagToSave->name = $tag['name'];
+            $tagToSave->save();
         }
-
-
-//        $re = ['$storedValues'=>$storedTags];
-//        $result = array_diff($tags, $re);
-//        return $result;
-
-//
-//        $tags = DB::table('tags')->where('templateId', $request->templateId)->get();
-//        $tag = new Tag();
-//        $tag->templateId = $request->templateId;
-//        $tag->name = $request->input('tags');
-//        $tag->save();
-
-
-
-
-
-
-
+       // return $template;
     }
 
     public function getAllTemplates(Request $request) {
