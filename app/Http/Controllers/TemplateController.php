@@ -68,6 +68,11 @@ class TemplateController extends Controller
         $template->isActive = $request->get('isActive');
         $template->isPublic = $request->get('isPublic');
         $template->categoryId = $request->get('categoryId');
+//        if ($request->get('category') == null) {
+//            $template->categoryId = 0;
+//        } else {
+            $template->categoryId = $request->get('categoryId');
+//        }
         $template->save();
         $tags = $request->get('tags');
         $tagToSave = new Tag();
