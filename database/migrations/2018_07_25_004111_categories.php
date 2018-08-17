@@ -15,7 +15,7 @@ class Categories extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('categoryId');
-            $table->integer('templateId')->references('templateId')->on('templates');
+           // $table->integer('templateId')->references('templateId')->on('templates');
             $table->string('name');
             $table->rememberToken();
             $table->timestamps();

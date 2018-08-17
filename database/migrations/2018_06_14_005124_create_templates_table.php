@@ -14,7 +14,7 @@ class CreateTemplatesTable extends Migration
     public function up()
     {
         Schema::create('templates', function (Blueprint $table) {
-//            $table->increments('id');
+
             $table->increments('templateId');
             $table->integer('templateGroupId')->references('templateGroupId')->on('template_groups');
             $table->integer('templateImageId')->references('templateImageId')->on('template_images');
@@ -22,6 +22,8 @@ class CreateTemplatesTable extends Migration
             $table->string('name');
             $table->boolean('isActive');
             $table->boolean('isPublic');
+            $table->boolean('categoryId');
+            $table->string('tags');
             $table->rememberToken();
             $table->timestamps();
         });
