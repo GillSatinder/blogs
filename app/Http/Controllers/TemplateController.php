@@ -46,13 +46,15 @@ class TemplateController extends Controller
     }
 
    public function getTemplateDetailsById($id) {
-       // $templateDetails = DB::table('templates')->where('templateId', $id)->get();
         $template = Template::find($id);
+        $tags = DB::table('templates')->pluck('tags');
 
-        $tags = DB::table('tags')->where('templateId', $id)->get();
-      //  $categories = DB::table('categories')->where('templateId', $id)->get();
-       $categories = Category::all();
-        $template->tags = $tags;
+
+        $categories = Category::all();
+
+
+
+       $template->tags  = explode("," , $tags);
         $template->categories = $categories;
         $templateDetails = ['templateDetails' => $template];
         return response() -> json($templateDetails);
@@ -68,20 +70,9 @@ class TemplateController extends Controller
         $template->isActive = $request->get('isActive');
         $template->isPublic = $request->get('isPublic');
         $template->categoryId = $request->get('categoryId');
-//        if ($request->get('category') == null) {
-//            $template->categoryId = 0;
-//        } else {
-            $template->categoryId = $request->get('categoryId');
-//        }
+        $template->categoryId = $request->get('categoryId');
+        $template->tags = $request->get('tags');
         $template->save();
-        $tags = $request->get('tags');
-        $tagToSave = new Tag();
-        foreach ($tags as $tag) {
-            $tagToSave->templateId = $tag['templateId'];
-            $tagToSave->name = $tag['name'];
-            $tagToSave->save();
-        }
-       // return $template;
     }
 
     public function getAllTemplates(Request $request) {
